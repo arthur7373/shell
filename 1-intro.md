@@ -26,7 +26,13 @@ SSH-ով միանալու պարագայում գաղտնաբառի փոխարե
 
 ## Linux VM remote access
 
-**Oracle VM VirtualBox** միջավայրում միացրեք **Ubuntu-22.04** վիրտուալ մեքենան
+* **Oracle VM VirtualBox** միջավայրում միացրեք **Ubuntu-22.04** վիրտուալ մեքենան
+
+
+* Մուտքագրվեք `student` անունով և նկատեք ՝IPv4 address`-ը:
+
+
+* Միացեք SSH-ով տվյալ անունով ու հասցեյով:
 
 
 ## Linux Terminal, CLI Basics
@@ -49,23 +55,27 @@ SSH-ով միանալու պարագայում գաղտնաբառի փոխարե
 
 CLI այլ կերպ նաև անվանվում է Shell: Լինում են տարբեր տեսակներ, ամենատարածվածը` **Bash**
 
-CLI/Shell/Bash աշխատում է ինտերակտիվ եղանակով, որը նաև անվանում են REPL 
+CLI / Shell / Bash աշխատում է ինտերակտիվ եղանակով, որը նաև անվանում են REPL 
 
-**Read**->**Evaluate**->**Print**->**Loop**  
+
+**Read** -> **Evaluate** -> **Print** -> **Loop**  
 
 
 
 > Լինուքսի յուրահատկությունը
 
-* Մեծատառի/փոքրատառի տարբերություն (LiNuX iS CaSe SeNsItIvE)
+Մեծատառի/փոքրատառի տարբերություն (LiNuX iS CaSe SeNsItIvE)
+
   * Հրամանների և ծրագրերի անվանման մեջ 
     * `command`
     * `Command` 
     * `COMMAND` 
+    
   * Ֆայլերի և դիրեկտորիաների/ֆոլդերների անվանման մեջ
     * `file`
     * `File`
     * `FILE`
+    
   * Օգտագործողների և խմբերի անվանման մեջ
     * `user`
     * `User`
@@ -84,7 +94,8 @@ CLI/Shell/Bash աշխատում է ինտերակտիվ եղանակով, որը
 
 Այս հրավերի տեսքը հնարավոր է փոխել, 
 սակայն հաճախ նշված նշանները պահպանվում են 
-և ավելանում է լրացուցիչ տեղեկություն, օրինակ՝ սերվերի, օգտագործողի, տվյալ դիրեկտորիայի անունները:
+և ավելանում է լրացուցիչ տեղեկություն, 
+օրինակ՝ սերվերի, օգտագործողի, տվյալ դիրեկտորիայի անունները:
 
 `student@server:/usr/bin$`
 
@@ -92,7 +103,8 @@ CLI/Shell/Bash աշխատում է ինտերակտիվ եղանակով, որը
 
 > Movement in command line
 
-Աջ/ձախ սլաքներից բացի հրամանային տողում տեղաշարժ 	
+Աջ/ձախ սլաքներից բացի հրամանային տողում տեղաշարժ
+
 * `Ctrl-A` – տեղափոխել տողի սկիզբ
 * `Ctrl-E` – տեղափոխել տողի վերջ
 
@@ -199,7 +211,22 @@ ls /
 man file-hierarchy
 ```
 
+### PRACTICE
+
+Տեղադռեք `tree` ծրագիրը
+
+```bash
+sudo apt install tree
+
+```
+
+Ցուցադրեք "**/**"-ի մեջ առկա գլխավոր դիրեկտորիաները `tree` հրամանի միջոցով
+
+Գտեք անհրաժեշտ պարամետրերը `man tree`-ի օգնությամբ
+
+
 > Ավելին իմանալու համար. https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard 
+
 
 
 Երբ մուտքագրվում եք / բացվում է Terminal-ը, հայտնվում եք ֆայլային համակարգի ընթացիկ դիրեկտորիայում:
@@ -229,6 +256,7 @@ man file-hierarchy
 > https://explainshell.com/
 > հրամանների մանրամասն բացատրություն: 
 > Բացեք կայքը և մուտքագրեք հրաման, օրինակ
+
 ```bash
 id -n -u
 ```
@@ -273,24 +301,31 @@ echo -n "Be patient " ; sleep 2 ; echo -n "to learn " ; sleep 2 ; echo "Shell Pr
 ```bash 
 cd /home ; pwd ; ls -la
 ```
+
 ```bash 
 cd ; ls -la /home
 ```
+
 ```bash 
 mkdir d1 ; cd d1 ; pwd ; touch f1 ; ls f*
 ```
+
 ```bash 
 cp f1 f2 ; ls f*
 ```
+
 ```bash 
 mv f2 f3 ; ls f*
 ```
+
 ```bash 
 alias del='rm -i'
 ```
+
 ```bash 
 del f*
 ```
+
 ```bash 
 cd ~ ; rm -r d1
 ```
@@ -300,6 +335,7 @@ cd ~ ; rm -r d1
 ```bash 
 type cd
 ```
+
 ```bash 
 type id
 ```
@@ -313,15 +349,41 @@ stat /usr/bin/id
 ```bash 
 cp -r /etc  ~`
 ```
+
 ```bash 
 mkdir ~/TEST`
 ```
+
 ```bash 
 mv  ~/etc  ~/TEST`
 ```
+
 ```bash 
 rm -r ~/TEST`
 ```
+
+
+## Midnight Commander
+
+Midnight Commander - visual file manager
+
+
+```bash
+sudo apt install mc
+```
+
+
+
+* TAB          տեղափոխվել պանելների միջև 
+* Esc Enter         տանել ընտրված ֆայլի անունը հրամանի տող 
+* Esc A 	    տանել ընտրված ֆայլի ճանապարհը հրամանի տող 
+* Esc H 	    հրամանի տողի պատմություն 
+* Esc P 	    նախորդ հրաման 
+* Ctrl  O            թաքցնել/ցույց տալ պանելները 
+* Esc 9 -> File -> Chmod 
+* Esc 9 -> File -> Advanced Chown
+* F10 = Esc 0 = exit      ելք 
+
 
 
 
