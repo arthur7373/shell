@@ -265,7 +265,7 @@ id -n -u
 կամ
 
 ```bash
-echo -n "Be patient " ; sleep 2 ; echo -n "to learn " ; sleep 2 ; echo "Shell Programming in Linux" ; sleep 2
+echo -n "Be patient " ; sleep 2 ; echo -n "to learn Shell Programming in Linux" ; sleep 2
 ```
 <hr> 
 
@@ -277,11 +277,16 @@ echo -n "Be patient " ; sleep 2 ; echo -n "to learn " ; sleep 2 ; echo "Shell Pr
 * `.`-ով սկսվող ֆայլերը սովորաբար օգտագործվում են անհատական կարգավորումները պահելու համար:
   (կետը տվյալ դեպքում ֆայլի անվանման մասն է)
 
+
 Օրինակներ՝
 
 `./a`        նույնն է ինչ   `a`
 
 `../home/student`  մեկ մակարդակ վերև և home/student
+
+```bash
+ls -la ~/.bash*
+```
 
 
 <hr>
@@ -293,8 +298,6 @@ echo -n "Be patient " ; sleep 2 ; echo -n "to learn " ; sleep 2 ; echo "Shell Pr
 * `rm <file>`  			Հեռացնել ֆայլ/դիրեկտորիա
 * `mkdir <newdir>`		 Ստեղծել դիրեկտորիա 
 * `alias <alias> <command>` Ստեղծել հրամանի կրճատում 
-* `type <command>` 		 Հրամանի գտնվելու վայրը և այլ տեղեկություններ
-* `stat <path-to-file>`  Տեղեկություններ ֆայլի մասին
 
 
 > Հրամանների օրինակներ
@@ -320,8 +323,16 @@ mv f2 f3 ; ls f*
 ```
 
 ```bash 
-alias del='rm -i'
+alias del="rm -i" ;\
+alias
+
 ```
+
+```bash
+echo 'alias del="rm -i"' >> ~/.bash_aliases
+
+```
+
 
 ```bash 
 del f*
@@ -331,37 +342,36 @@ del f*
 cd ~ ; rm -r d1
 ```
 
-<hr>
-
-```bash 
-type cd
-```
-
-```bash 
-type id
-```
-
-```bash
-stat /usr/bin/id
-```
 
 <hr>
 
 ```bash 
-cp -r /etc  ~`
+cp -r /etc ~
 ```
 
 ```bash 
-mkdir ~/TEST`
+mkdir ~/TEST
 ```
 
 ```bash 
-mv  ~/etc  ~/TEST`
+mv  ~/etc  ~/TEST
 ```
 
 ```bash 
-rm -r ~/TEST`
+rm -r ~/TEST
 ```
+
+
+### PRACTICE
+
+* `clear` հրամանը մաքրում է էկրանը
+  * ստեղծել `c` անունով `alias`, որ մաքրում է էկրանը
+  * պահպանել այն, որ գործի մյուս մուտքագրվելիս նույնպես
+
+* ստեղծել երկու հրամանից բաղկացած `alias`, որը
+  * կտեղափոխի վերեվի դիրեկտորիա 
+  * և պտպի ներկայիս գտնվելու վայրը 
+  * պահպանել այն, որ գործի մյուս մուտքագրվելիս նույնպես
 
 
 ## Midnight Commander
@@ -729,12 +739,12 @@ Simple example is below:
 ```bash
 cat  > ~/c1  << "EOF1"
 #!/bin/bash
-a=5
-b=30
+A=5
+B=30
 
-if [ $a -lt $b ]
+if [ $A -lt $B ]
 then
-        echo "$a < $b"
+        echo "$A < $B"
 fi
 EOF1
 chmod +x ~/c1
@@ -753,7 +763,7 @@ Edit the file and add
 
 ```bash
 else
-        echo "$a > $b"
+        echo "$A > $B"
 ```
 before `fi` line
 
@@ -772,7 +782,7 @@ exit
 fi 
 ```
 
-Now you may notice that even thoigh we check for the number of parameters to be at least 2, 
+Now you may notice that even though we check for the number of parameters to be at least 2, 
 if we give non-numeric parameter it will give error.
 
 
@@ -806,6 +816,31 @@ But second parameter still is not checked.
 ```
 
 **Task: Modify the script to check 2nd positional parameter as well**
+
+
+
+Shell script to check whether a number is positive or negative
+
+```bash
+#!/bin/bash
+echo "Enter a Number"
+read num
+
+if [ $num -lt 0 ]
+then
+    echo "$num is Negative"
+elif [ $num -gt 0 ]
+then
+    echo "$num is Positive"
+else
+    echo "$num is ZERO"
+fi
+
+```
+
+### Task 
+Modify script to get number from 1st positional parameter
+
 
 
 ## Functions
@@ -899,6 +934,78 @@ When ready it should work like `nkar elephant HELLO`
 
 ## Sourcing Scripts
 
+Sourcing script means including one script into another
+
+It may be useful if you have a code block you may want to: 
+* separate or 
+* use in multiple scripts
+
+Simple example of it is in `~/.bashrc`
+```bash
+cat ~/.bashrc
+```
+
+Here we see sourcing is used multiple times like:
+```bash
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+```
+
+Let's separate two blocks in above `f1` script and source them.
+
+```bash
+cat  > ~/f11-s1  << "EOFs1"
+if [[ $# < 2 ]]
+then
+  echo "Please provide 2 numbers as parameters"
+  echo "Usage: $0 num1, num2 ..."
+exit
+fi
+EOFs1
+
+cat  > ~/f11-s2  << "EOFs2"
+isnumber () 
+{ 
+if [ $1 -eq $1 2>/dev/null ]
+then
+echo -n
+else
+echo "$1 not number"
+exit
+fi
+}
+EOFs2
+
+
+cat  > ~/f11  << "EOF1"
+#!/bin/bash
+
+. ~/f11-s1
+
+. ~/f11-s2
+
+a=${1}
+b=${2}
+
+isnumber $a
+isnumber $b
+
+if [ $a -lt $b ]
+then
+        echo "$a < $b"
+else
+        echo "$a > $b"
+
+fi
+
+EOF1
+chmod +x ~/f11
+
+```
+
+Note we didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
+
 ## Error handling, Exit Status
 
 ## Loops
@@ -924,6 +1031,7 @@ echo "----------------"
 clear
 COUNTER=`expr  $COUNTER + 1`
 done
+
 ```
 
 
@@ -940,6 +1048,54 @@ do
     done
     echo ""
 done
+
+```
+
+
+Count factorial of a number (with `for` loop)
+
+```bash
+#!/bin/bash
+num=$1
+fact=1
+for((i=2;i<=num;i++))
+{
+  fact=$((fact * i))  #fact = fact * i
+}
+echo $fact
+```
+
+Count factorial of a number (with `while` loop)
+
+```bash
+#!/bin/bash
+num=$1
+fact=1
+while [ $num -gt 1 ]
+do
+  fact=$((fact * num))  #fact = fact * num
+  num=$((num - 1))      #num = num - 1
+done
+
+echo $fact
+```
+
+Count sum of all digits in a number
+
+```bash
+#!/bin/bash
+num=$1
+sum=0
+
+while [ $num -gt 0 ]
+do
+    mod=$((num % 10))    #Split last digit by modulo 10 - remainder of a division by 10
+    sum=$((sum + mod))   #Add that digit to sum
+    num=$((num / 10))    #Divide num by 10 
+done
+
+echo $sum
+
 ```
 
 
