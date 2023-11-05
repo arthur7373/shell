@@ -21,12 +21,12 @@ Linux Terminal-ի Command Line Interface (CLI)-ի հետ աշխատելու փո
 * File Permissions
 * I/O Redirection, Pipes
 * Text Editor
-* Sourcing Scripts
 * Variables
 * Positional Parameters
-* Error handling, Exit Status
 * Conditionals
 * Loops
 * Functions
+* Error handling, Exit Status
+* Sourcing Scripts
 * Arrays
 * Text Processing Tools
