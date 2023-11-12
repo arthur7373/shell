@@ -374,30 +374,213 @@ rm -r ~/TEST
   * պահպանել այն, որ գործի մյուս մուտքագրվելիս նույնպես
 
 
+### Փոփոխականներ
+Shell/Bash variables - temporary storage for information
+Bash does not care about the type of variables. 
+Variables could store strings, characters or integers. 
+
+Variable names are uppercase by convention, but lowercase and other symbols can be used as well.
+
+Syntax: **VARNAME=VALUE**
+
+> Note: There should be no space around `=` sign 
+
+The example assigns the value `/usr/bin` to the variable called `LIST`
+Prefix the variable name with `$`, which will give the value stored in that variable.
+
+#### PRACTICE
+
+```bash
+LIST="/usr/bin/" ; ls -l $LIST
+```
+
+
+<br><br>
+
+## Access files
+
+There are several tool to view text files contents.
+
+> **less** - view/browse text file page-by-page
+
+* **Enter/DOWNARROW**	– մեկ տող ներքև
+* **SPACE/PgDn**		– մեկ էկրան ներքև
+* **PgUp/b**			– մեկ էկրան վերև
+* **UPARROW**			– մեկ տող վերև
+* **/**					– որոնում
+* **Home**				– անցնել տեքստի սկիզբը
+* **End**				– անցնել տեքստի վերջը
+* **q**					– ելք
+
+> Օրինակներ
+ 
+`less /etc/services`
+`ls /usr/bin | sort -r | less`
+
+<br><br>
+
+> **cat** - output whole file to STDOUT (default - terminal)
+
+> Օրինակներ
+ 
+`cat /etc/services`
+
+`cat /etc/services | sort -r `
+
+`cat /etc/services | sort -r | less`
+
+<br><br>
+
+> **head** - output some first lines (default 10) of file STDOUT (default - terminal)
+
+> Օրինակներ
+ 
+`head /etc/services`
+
+`head -1 /etc/services`
+
+`head -1 /etc/services > /tmp/h1`
+
+`head -1 /etc/services >> /tmp/h1`
+ 
+<br><br>
+
+> **tail** - output some last lines (default 10) of file STDOUT (default - terminal)
+
+> Օրինակներ
+ 
+`tail /etc/services`
+
+`tail -1 /etc/services`
+
+`tail -1 /etc/services > /tmp/s1`
+
+`tail -1 /etc/services >> /tmp/s1`
+
+<br><br>
+
+> **grep** - filter lines based on pattern
+
+> Օրինակներ
+ 
+`cat /etc/services | grep http `
+
+`ls /usr/bin | grep log`
+
+`ls /usr/bin | grep ^log`
+
+`ls /usr/bin | grep log$`
+
+
+
+<br><br>
+
+## I/O Redirection
+
+<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/io-redir-1.jpg width=50% height=50% >
+<br><br>
+<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/io-redir-2.jpg width=50% height=50% >
+
+> STDOUT - Standard output  		>     >> 
+ 
+* `ls /etc > ~/stdout`
+* `ls /etc >> ~/stdout`
+
+> STDERR - Standard error output		2>   2>> 
+* `ls /e > ~/stdout`
+* `ls /e > ~/stdout 2> ~/stderr`
+* `ls /e > ~/stdout 2> /dev/null`
+
+<br><br>
+
+## Pipes
+
+Pipeline - Մեկ հրամանի STDOUT-ը ուղարկել այլ հրամանի STDIN-ին
+
+<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/pipes-1.jpg width=50% height=50% >
+
+> Օրինակ
+
+`ls /usr/bin | sort -r`
+
+Նույնը չէ, ինչ հաջորդաբար կատարումը `;`-ով
+
+`ls /usr/bin ; sort -r`
+
+> Հրամանների համակցում
+
+Հրամանները կարելի է համակցել հետևյալ կերպ՝
+
+* **;**	Պարզապես կատարել հրամանները՝ մեկը մյուսի հետևից
+
+* **|**	Փոխանցել առաջին հրամանի ելքի տվյալները (stdout) 
+    երկրորդ հրամանի մուտքին (stdin)
+
+* **&&**	Logical AND 
+    եթե առաջին հրամանի ելքի կոդը (exit code) 0 է, կատարել երկրորդը
+
+* **||**	Logical OR
+    եթե առաջին հրամանի ելքի կոդը (exit code) 0 չէ, կատարել երկրորդը
+
+_( **echo $?**  - ցույց է տալիս վերջին հրամանի ելքի կոդը (exit code) 0=OK)_
+
+
+> Օրինակներ
+
+* `cd /home && pwd`
+* `cd /hh && pwd`
+  * QUESTION: how to get rid of `cd: /hh: No such file or directory`
+* `cd /home || echo "Wrong directory"`
+  * change `/home` to `/hh` and run again
+* ```bash
+  DD=/bin ; [ -d $DD ] ; echo "Exit code is: $?"
+  ```
+* ```bash
+  DD=/bn ; [ -d $DD ] ; echo "Exit code is: $?"
+  ```
+  
+
+
 
 <br><br>
 ## Text Editors (Խմբագիրներ)
 
-* **vi /vim**	Standard UNIX editor
-* **nano**		Simple display-oriented text editor 
-* **mcedit** 	Midnight Commander internal editor
-* **joe** 		Joe editor
-* **gedit/kate** 	Graphical editors 
+* **nano**		Standard Linux editor - for newcomers - present in most LINUX versions
+* **vi /vim**	Standard UNIX editor - for experienced users - present in most UNIX/Linux versions
+
+There are more editors, like **mcedit** or **joe**, which are mostly not installed by default.
+
+
+### Nano editor basics
+
+`nano` is an easy to use text editor for UNIX/Linux operating systems. 
+It includes all the basic functionality of text editor.
+When you run `nano` main commands are displayed at the bottom. 
+
+Most commands are prefixed with `^`, which means `Ctrl` key<br> 
+*  `^G` means press `Ctrl`+`g`  (NOT `G`)
 
 
 ### Vim/Vi basics
 
-Vim/Vi is a very powerful editor Linux/Unix text editor. The reason to know it's basics is that it is initially available almost on any Linux/UNIX system.
+`vim`/`vi` is a very powerful editor UNIX/Linux text editor. 
+The reason to know it's basics is that it is initially available almost on any UNIX/Linux system.
 Even if any other editor will not be present or available to install Vi/Vim will be there to enable you editing text files.
-(to learn more than below basics you can type `vimtutor` and follow instructions)
+(one way to learn `vi` basics is to type `vimtutor` and follow instructions).
 
 > Vim Modes
-* **Insert**	- Insert text by typing
+* **Command**	- Single keystroke mostly to switch mode ( "**i**" ) or do other actions
+* **Insert/Input**	- Main mode to modify text by typing
 * **Execute**	- Execute commands within the editor
-* **Command**	- Perform different editing actions using single keystrokes
-* **Visual**	- Highlight or select text for copying, deleting, etc
+
+There is also much rarely used **Visual** mode for highlight or select text for copying, deleting, etc 
 
 <img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/vim-modes.jpg width=50% height=50% >
+
+> REMEMBER ! 
+> If you get confused in which mode you are in just **press the `ESC` key a couple of times and start over** with what you were doing.
+
+<br><br>
 
 > Execute Mode Commands
 
@@ -408,584 +591,17 @@ Even if any other editor will not be present or available to install Vi/Vim will
 
 <br><br>
 
-## Shell scripting basics
 
-> First line of Shell script should look like: 
-* `#!/bin/bash`
-* `#!/bin/sh`
+### PRACTICE
 
-After 2 special characters **#!**, 
-it should contain the path to the interpreter - program that will try to interpret the text line by line and do what is required.
+Create new file in `vi` editor
 
-In case script don't have such first line, it will still work, but it will be interpreted by current shell and chances are, there will be some errors. 
-
+* Type `vi testfile1` to open `vi` with new file `testfile1`
+* Press the `i` key to switch to **Insert/Input** mode.
+* Type something like: <br><br> 
+`We are happy to learn`<br>
+`shell programming in Linux`
 <br><br>
-
-*Simple script example*
-
-```bash
-cat  > ~/s1  << "EOF1"
-#!/bin/bash
-ls -l /usr/bin/
-EOF1
-chmod +x ~/s1
-
-```
-
-Try running this simple script:
-
-`./s1`
-
-Let's now understand what was done above.
-
-We used method called _Here document_ to create the script and made it executable with `chmod`.
-The script itself is a single `ls` command, that outputs detailed (-l) contents of directory _/usr/bin/_
-
-Check the contents of the script you created:
-
-```bash
-cat ~/s1
-```
-
-<br><br>
-
-## Positional Parameters
-
-During running, shell scripts have access to special data from the environment:
-
-* **$0** or **{$0}** - The name of the script
-* **$1** or **{$1}** - The first argument sent to the script 
-* **$2** or **{$2}** - The second argument sent to the script
-...
-* **$*** - all arguments as one
-* **$#** - count/number of arguments
-
-This enables to pass some data to the script by means of positional parameters.
-
-> Example of positional parameters
-
-```bash
-cat  > ~/s2  << "EOF1"
-#!/bin/bash
-# Here we get the first positional parameter and provide it to "ls" command
-ls -l ${1}
-EOF1
-chmod +x ~/s2
-
-```
-
-Now try running this simple script without any parameter:
-
-```bash
-./s2
-```
-
-> QUESTION: What directory did `ls` command list ?  Why ?
-
-Now try providing one positional parameter
-
-```bash
-./s2 /tmp
-```
-
-```bash
-./s2 /usr/sbin
-```
-
-As you see we pass the data to the script, which changes how `ls` command works.
-
-
-Let's now pass more data. 
-We will provide options to `ls` via first positional parameter, 
-the directory to show via second and pattern to filter lines via third.
-
-```bash
-cat  > ~/s3  << "EOF1"
-#!/bin/bash
-ls ${1} ${2} | grep ${3}
-EOF1
-chmod +x ~/s3
-
-```
-
-First try running this script without parameters:
-
-```bash
-./s3
-```
-
-> EXPLAIN THE OUTPUT
-
-
-Now try providing all 3 positional parameters
-
-```bash
-./s3 -lh /bin log
-```
-
-```bash
-./s3 -r / l
-```
-
-## Variables
-
-Shell variables are temporary storage for information.
-
-Shell does not care about the type of variables. 
-Variables could store strings, characters or integers. 
-
-Variable names are uppercase by convention, but lowercase and other symbols can be used as well.
-
-Syntax: **VARNAME=VALUE**
-
-> Note: There should be no space around “=” sign 
-
-Prefix the variable name with **$**, gives the value stored in that variable.
-
-The following script creates a variable called **NAME** and assigns the value "HELLO STUDENT". 
-
-
-Example of simple variable assignment usage
-
-```bash
-cat  > ~/v1  << "EOF1"
-#!/bin/bash
-NAME="HELLO STUDENT"
-echo $NAME
-EOF1
-chmod +x ~/v1
-
-```
-
-Execute the above script, which will output the text to the terminal.
-
-**Task 1: Modify the script to output 1-st positional parameter after HELLO STUDENT.**
-
-**Task 2: Have fun with _cowsay_**
-
-1. Install `cowsay` program
-```bash
-yum -y install cowsay
-```
-
-2. Run it
-```bash
-cowsay Hi student
-```
-
-It can draw different pictures and say the text you provide.
-
-
-3. Create an alias `krya` to draw **turtle** saying what you will give as parameter.
-   1. List of pictures are available with
-   ```bash 
-   cowsay -l
-   ```
-   2. Read `man cowsay` and find the option to provide **turtle** picture file as parameter.
-   3. Your alias should work like `krya BAREV`
-
-
-![img.png](../images/shell-course/turtle.png)
-
-4. Create the **script** which will do the same as **alias**. 
-
-<br><br>
-
-When you work in shell, there are already many defined shell variables.
-
-**Global variables** (also called **environment variables**) - available to all shells. 
-The `env` or `printenv` commands can be used to display environment variables. 
-
-**Local variables** are visible only within the block of code.  
-Using the `set` built-in command without any options will display a list of all variables 
-(including environment variables) and functions.  
-
-In a function, a local variable has meaning only within that function block. 
-
-```bash
-set | grep HIST
-```
-
-```bash
-set | grep NAME
-```
-
-```bash
-env | grep NAME
-```
-
-
-## Conditionals
-
-Very frequently there is need to make decisions based on certain conditions. Conditions are expressions that after being evaluated return "yes" or "no" (i.e. true or false).
-
-Most used is **if** conditional
-
-Simple example is below:
-
-```bash
-cat  > ~/c1  << "EOF1"
-#!/bin/bash
-A=5
-B=30
-
-if [ $A -lt $B ]
-then
-        echo "$A < $B"
-fi
-EOF1
-chmod +x ~/c1
-
-```
-
-Execute the above script, which will output the text to the terminal.
-
-**Task: Modify the script to get 2 variables from 2 positional parameters**
-
-<br><br>
-Notice that in case **a** is NOT less that **b**, nothing is printed.
-Let's add that variant too.
-
-Edit the file and add 
-
-```bash
-else
-        echo "$A > $B"
-```
-before `fi` line
-
-
-if you run the above script without parameters you see output is not so pretty.
-Now let's add additional check if parameters are present.
-
-Add below code just after first line `#!/bin/bash`
-
-```bash
-if [[ $# < 2 ]] 
-then 
-  echo "Please provide 2 numbers as parameters"
-  echo "Usage: $0 num1, num2" 
-exit 
-fi 
-```
-
-Now you may notice that even though we check for the number of parameters to be at least 2, 
-if we give non-numeric parameter it will give error.
-
-
-```bash
-./c1 aaa 1 
-```
-
-
-To implement checking if 1st parameter is numeric, add below code just after above check `#!/bin/bash`
-
-```bash
-if [ $1 -eq $1 2>/dev/null ]
-then
-echo -n
-else
-echo "$1 not number"
-exit
-fi
-```
-
-Now check if it works
-
-```bash
-./c1 aaa 1 
-```
-
-But second parameter still is not checked.
-
-```bash
-./c1 1 aaa 
-```
-
-**Task: Modify the script to check 2nd positional parameter as well**
-
-
-
-Shell script to check whether a number is positive or negative
-
-```bash
-#!/bin/bash
-echo "Enter a Number"
-read num
-
-if [ $num -lt 0 ]
-then
-    echo "$num is Negative"
-elif [ $num -gt 0 ]
-then
-    echo "$num is Positive"
-else
-    echo "$num is ZERO"
-fi
-
-```
-
-### Task 
-Modify script to get number from 1st positional parameter
-
-
-
-## Functions
-
-We see that in above code we add the same part for checking 1st parameter, then 2nd.
-In case we don't want to repeat the same code twice, we can create a **function**.
-
-```bash
-cat  > ~/f1  << "EOF1"
-#!/bin/bash
-if [[ $# < 2 ]]
-then
-  echo "Please provide 2 numbers as parameters"
-  echo "Usage: $0 num1, num2 ..."
-exit
-fi
-
-isnumber () 
-{ 
-if [ $1 -eq $1 2>/dev/null ]
-then
-echo -n
-else
-echo "$1 not number"
-exit
-fi
-}
-
-
-a=${1}
-b=${2}
-
-isnumber $a
-isnumber $b
-
-if [ $a -lt $b ]
-then
-        echo "$a < $b"
-else
-        echo "$a > $b"
-
-fi
-
-EOF1
-chmod +x ~/f1
-
-```
-
-You can see that the above script `f1' works the same way as 'c1',
-but here we define and use function **isnumber**.
-
-
-Other example of function
-
-```bash
-cat > ~/f2 << "EOF1"
-#!/bin/bash 
-
-exf () {  
-echo "We learn $1" 
-} 
-
-exf Linux 
-exf Shell
-exf Programming in Linux
-exf Shell Programming in Linux
-
-EOF1
-chmod +x ~/f2
-
-```
-
-> Here you may understand that INSIDE function **$1** means NOT 
-> first parameter of the script, but first parameter of that function
-
-Now notice that in last 2 lines only first word is printed.
-Why?
-
-**Task: Modify the script to print complete lines.**
-**HINT: you need to use something else than $1** 
-
-
-#### PRATICE
-Based on previous use of funny `cowsay` program, create more flexible script `nkar` to get 2 parameters and provide to `cowsay`
-1. what picture to draw
-2. what text to say
-
-When ready it should work like `nkar elephant HELLO`
-
-![img.png](../images/shell-course/elephant.png)
-
-## Sourcing Scripts
-
-Sourcing script means including one script into another
-
-It may be useful if you have a code block you may want to: 
-* separate or 
-* use in multiple scripts
-
-Simple example of it is in `~/.bashrc`
-```bash
-cat ~/.bashrc
-```
-
-Here we see sourcing is used multiple times like:
-```bash
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-```
-
-Let's separate two blocks in above `f1` script and source them.
-
-```bash
-cat  > ~/f11-s1  << "EOFs1"
-if [[ $# < 2 ]]
-then
-  echo "Please provide 2 numbers as parameters"
-  echo "Usage: $0 num1, num2 ..."
-exit
-fi
-EOFs1
-
-cat  > ~/f11-s2  << "EOFs2"
-isnumber () 
-{ 
-if [ $1 -eq $1 2>/dev/null ]
-then
-echo -n
-else
-echo "$1 not number"
-exit
-fi
-}
-EOFs2
-
-
-cat  > ~/f11  << "EOF1"
-#!/bin/bash
-
-. ~/f11-s1
-
-. ~/f11-s2
-
-a=${1}
-b=${2}
-
-isnumber $a
-isnumber $b
-
-if [ $a -lt $b ]
-then
-        echo "$a < $b"
-else
-        echo "$a > $b"
-
-fi
-
-EOF1
-chmod +x ~/f11
-
-```
-
-Note we didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
-
-## Error handling, Exit Status
-
-## Loops
-
-
-
-```bash
-#!/bin/bash
-if [ -z $1 ]; then
-echo "Usage: $0 number of loops"
-exit
-fi
-clear
-COUNTER=0
-while [ $COUNTER -lt $1 ]
-do
-echo "State (for $1 seconds)"
-echo "second:$COUNTER" 
-echo "-- Users --"
-w
-echo "----------------"
-/bin/sleep 1
-clear
-COUNTER=`expr  $COUNTER + 1`
-done
-
-```
-
-
-
-
-```bash
-#!/bin/bash
-echo "How do you like it:"
-for (( i=1; i<=5; i++ ))
-do
-    for (( j=1; j<=i;  j++ ))
-    do
-     echo -n "$i"
-    done
-    echo ""
-done
-
-```
-
-
-Count factorial of a number (with `for` loop)
-
-```bash
-#!/bin/bash
-num=$1
-fact=1
-for((i=2;i<=num;i++))
-{
-  fact=$((fact * i))  #fact = fact * i
-}
-echo $fact
-```
-
-Count factorial of a number (with `while` loop)
-
-```bash
-#!/bin/bash
-num=$1
-fact=1
-while [ $num -gt 1 ]
-do
-  fact=$((fact * num))  #fact = fact * num
-  num=$((num - 1))      #num = num - 1
-done
-
-echo $fact
-```
-
-Count sum of all digits in a number
-
-```bash
-#!/bin/bash
-num=$1
-sum=0
-
-while [ $num -gt 0 ]
-do
-    mod=$((num % 10))    #Split last digit by modulo 10 - remainder of a division by 10
-    sum=$((sum + mod))   #Add that digit to sum
-    num=$((num / 10))    #Divide num by 10 
-done
-
-echo $sum
-
-```
-
-
-## Arrays
-## Text Processing Tools
+* Press the `ESC` key for command mode
+* Type `:wq` to save and quit the file
 
