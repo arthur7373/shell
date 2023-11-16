@@ -119,23 +119,9 @@ Now try providing all 3 positional parameters
 ./s3 -r / l
 ```
 
-## Variables
+### Example with Variables
 
-Shell variables are temporary storage for information.
-
-Shell does not care about the type of variables. 
-Variables could store strings, characters or integers. 
-
-Variable names are uppercase by convention, but lowercase and other symbols can be used as well.
-
-Syntax: **VARNAME=VALUE**
-
-> Note: There should be no space around “=” sign 
-
-Prefix the variable name with **$**, gives the value stored in that variable.
-
-The following script creates a variable called **NAME** and assigns the value "HELLO STUDENT". 
-
+The following script creates a variable called **NAME** and assigns the value "HELLO STUDENT".
 
 Example of simple variable assignment usage
 
@@ -157,12 +143,12 @@ Execute the above script, which will output the text to the terminal.
 
 1. Install `cowsay` program
 ```bash
-yum -y install cowsay
+sudo yum -y install cowsay
 ```
 
 2. Run it
 ```bash
-cowsay Hi student
+cowsay Hi Shell Programmin student
 ```
 
 It can draw different pictures and say the text you provide.
