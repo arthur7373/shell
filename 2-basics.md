@@ -198,11 +198,7 @@ set | grep NAME
 env | grep NAME
 ```
 
-Some important variables
 
-![img.png](shell-course/bash01.jpg)
-
-![img.png](shell-course/bash02.jpg)
 
 ## Conditionals
 
