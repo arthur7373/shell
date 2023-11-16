@@ -596,6 +596,12 @@ chmod +x ~/loop2
 
 ```
 
+#### TASK
+
+Modify the above script to get first positional parameter and to output numbers until that.
+Also check if it is number and exit if it is not given (you may `source` parts of previous scripts).
+
+
 
 Count factorial of a number (with `for` loop)
 
@@ -613,6 +619,12 @@ END5
 chmod +x ~/loop3
 
 ```
+
+#### TASK
+
+Add here the check if positional parameter is number and exit if it is not given 
+(you may `source` parts of previous scripts).
+
 
 Count factorial of a number (with `while` loop)
 
@@ -633,28 +645,10 @@ chmod +x ~/loop4
 
 ```
 
-Count sum of all digits in a number with `while` loop
+#### TASK
 
-```bash
-cat  > ~/loop5  << "END5"
-#!/bin/bash
-num=$1
-sum=0
-
-while [ $num -gt 0 ]
-do
-    mod=$((num % 10))    #Split last digit by modulo 10 - remainder of a division by 10
-    sum=$((sum + mod))   #Add that digit to sum
-    num=$((num / 10))    #Divide num by 10 
-done
-
-echo $sum
-
-END5
-chmod +x ~/loop5
-
-```
-
+Add here the check if positional parameter is number and exit if it is not given 
+(you may `source` parts of previous scripts).
 
 
 
@@ -711,6 +705,36 @@ EOF1
 chmod +x ~/aver.sh
 
 ```
+
+Count sum of all digits in a number with `while` loop
+
+```bash
+cat  > ~/sumd  << "END5"
+#!/bin/bash
+num=$1
+sum=0
+
+while [ $num -gt 0 ]
+do
+    mod=$((num % 10))    #Split last digit by modulo 10 - remainder of a division by 10
+    sum=$((sum + mod))   #Add that digit to sum
+    num=$((num / 10))    #Divide num by 10 
+done
+
+echo $sum
+
+END5
+chmod +x ~/sumd
+
+```
+
+#### TASK
+
+Add here the check if positional parameter is number and exit if it is not given 
+(you may `source` parts of previous scripts).
+
+
+
 
 
 
