@@ -202,6 +202,8 @@ Some important variables
 
 ![img.png](shell-course/bash01.jpg)
 
+![img.png](shell-course/bash02.jpg)
+
 ## Conditionals
 
 Very frequently there is need to make decisions based on certain conditions. Conditions are expressions that after being evaluated return "yes" or "no" (i.e. true or false).
