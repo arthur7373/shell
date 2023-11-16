@@ -171,6 +171,7 @@ It can draw different pictures and say the text you provide.
 Example:
 ![img.png](shell-course/elephant.png)
 
+## Variables - Local & Global
 
 <br><br>
 
@@ -197,6 +198,9 @@ set | grep NAME
 env | grep NAME
 ```
 
+Some important variables
+
+![img.png](shell-course/bash01.jpg)
 
 ## Conditionals
 
