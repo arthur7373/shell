@@ -45,9 +45,9 @@ cat ~/s1
 
 During running, shell scripts have access to special data from the environment:
 
-* **$0** or **{$0}** - The name of the script
-* **$1** or **{$1}** - The first argument sent to the script 
-* **$2** or **{$2}** - The second argument sent to the script
+* **$0** or **${0}** - The name of the script
+* **$1** or **${1}** - The first argument sent to the script 
+* **$2** or **${2}** - The second argument sent to the script
 ...
 * **$*** - all arguments as one
 * **$#** - count/number of arguments
@@ -200,7 +200,7 @@ env | grep NAME
 
 
 
-## Conditionals
+## Conditionals - if
 
 Very frequently there is need to make decisions based on certain conditions. Conditions are expressions that after being evaluated return "yes" or "no" (i.e. true or false).
 
@@ -470,11 +470,88 @@ chmod +x ~/f11
 
 Note we didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
 
+## Conditionals - Case
+
+`case` statement is the simplest form `if-then-else` statement.
+It is generally used to when you have multiple different choices.
+
+Examples:
+
+```bash
+cat  > ~/case1  << "END777"
+#!/bin/bash
+
+case "$1" in
+
+'start')
+echo "Starting ..."
+sleep 2
+echo "Started ..."
+;;
+
+'stop')
+echo "Stopping ..."
+sleep 2
+echo "Stopped ..."
+;;
+
+'restart')
+echo "Restarting ..."
+sleep 2
+echo "Restarted ..."
+;;
+
+*)
+echo "Usage: $0 [start|stop|restart]"
+;;
+
+esac
+END777
+chmod +x ~/case1
+
+```
+
+
+```bash
+cat  > ~/case2  << "END777"
+#!/bin/bash
+shopt -s nocasematch # Here we activate "nocasematch" shell option to make pattern case insensitive
+echo "Enter the name of a month" 
+echo "and I will tell the number of days in it"
+echo "(q - to finish)."
+
+while true
+do
+read month
+case $month in
+February|feb)
+echo "28/29 days in $month.";;
+
+April|apr|June|june|September|sep|November|nov)
+echo "30 days in $month.";;
+
+jan|mar|may|jul|aug|oct|dec|January|March|May|July|August|October|December)
+echo "31 days in $month.";;
+
+q) echo "Bye!" 
+   exit;;
+
+*) echo "Unknown month $month. Please try again";;
+esac
+done
+END777
+chmod +x ~/case2
+
+```
+
+
+
 ## Loops
 
 Example of `while` loop
 
 ```bash
+cat  > ~/loop1  << "END5"
 #!/bin/bash
 if [ -z $1 ]; then
 echo "Usage: $0 number of loops"
@@ -493,6 +570,8 @@ echo "----------------"
 clear
 COUNTER=`expr  $COUNTER + 1`
 done
+END5
+chmod +x ~/loop1
 
 ```
 
@@ -501,6 +580,7 @@ Example of `for` loop
 
 
 ```bash
+cat  > ~/loop2  << "END5"
 #!/bin/bash
 echo "How do you like it:"
 for (( i=1; i<=5; i++ ))
@@ -511,6 +591,8 @@ do
     done
     echo ""
 done
+END5
+chmod +x ~/loop2
 
 ```
 
@@ -518,6 +600,7 @@ done
 Count factorial of a number (with `for` loop)
 
 ```bash
+cat  > ~/loop3  << "END5"
 #!/bin/bash
 num=$1
 fact=1
@@ -526,11 +609,15 @@ for((i=2;i<=num;i++))
   fact=$((fact * i))  #fact = fact * i
 }
 echo $fact
+END5
+chmod +x ~/loop3
+
 ```
 
 Count factorial of a number (with `while` loop)
 
 ```bash
+cat  > ~/loop4  << "END5"
 #!/bin/bash
 num=$1
 fact=1
@@ -541,11 +628,15 @@ do
 done
 
 echo $fact
+END5
+chmod +x ~/loop4
+
 ```
 
 Count sum of all digits in a number with `while` loop
 
 ```bash
+cat  > ~/loop5  << "END5"
 #!/bin/bash
 num=$1
 sum=0
@@ -559,7 +650,68 @@ done
 
 echo $sum
 
+END5
+chmod +x ~/loop5
+
 ```
+
+
+
+
+
+#### Arithmetic Expansion. Double-Parentheses Construct. 
+
+Arithmetic operations in Bash can be done in several ways. 
+
+1. ‘Old’ ways were using let  
+`let a="1+6" ;echo $a `
+
+2. or expr 
+`b=`expr 2 + 5` ; echo $b` 
+3. Newer versions of Bash have other way: double parentheses. 
+**(( ... ))** construct permits arithmetic expansion and evaluation. 
+In its simplest form, _a=$(( 5 + 3 ))_ would set a to 5 + 3, or 8. 
+However, this double-parentheses construct is also a mechanism for allowing C-style manipulation of 
+variables in Bash, for example increments like (( var++ )) or (( var+=5 )). 
+`$ z=$((4+3)); echo $z `
+
+
+Example of a shell script  that calculates the average of all command line parameters 
+
+```bash
+cat > ~/aver.sh << "EOF1"
+#!/bin/bash 
+if [[ $# = 0 ]] 
+then echo "Usage: $0 num1, num2 ..." 
+exit 
+fi 
+(( m= 0 )) 
+isnumber () 
+{ 
+if [ $1 -eq $1 2>/dev/null ] 
+then  
+((m+=1)) 
+else echo "$1 is not a number" 
+ exit $? 
+fi 
+} 
+(( sum=0 )) 
+for i in $* 
+do 
+if  isnumber $i 
+then  
+((sum+=$i)) 
+fi 
+done 
+
+((AV=sum/m)) 
+echo "For $* " 
+echo  “Average is $AV” 
+EOF1
+chmod +x ~/aver.sh
+
+```
+
 
 
 ### Arrays
@@ -622,6 +774,189 @@ Modify script sort numbers correctly
 Modify script to:  
 1. create array “INPUT” from all positional parameters 
 2. output usage if no parameters are given 
+
+
+
+
+### Signal Traps 
+
+Signals are used to tell some other process what to do - mainly to stop working end exit.
+Each signal has predefined action.
+
+Bash has an internal `trap` command to reassign the signal actions, which can be useful in scripts. 
+The format of the trap command is:  _trap 'commands'  signals_ 
+
+Common use example:
+
+`trap '' 2 3 15 # sets do nothing when receiving 2 (INT, Ctrl-C), 3 (QUIT, Ctrl-\), 15 (TERM) signals.` 
+
+Let's add this line to above `case` script and try to stop with `Ctrl-C` or `Ctrl-\`
+
+
+```bash
+
+cat  > ~/case3  << "END777"
+#!/bin/bash
+trap '' 2 3 15 # sets do nothing when receiving 2 (INT, Ctrl-C), 3 (QUIT, Ctrl-\), 15 (TERM) signals.
+shopt -s nocasematch # Here we activate "nocasematch" shell option to make pattern case insensitive
+echo "Enter the name of a month" 
+echo "and I will tell the number of days in it"
+echo "(q - to finish)."
+
+while true
+do
+read month
+case $month in
+February|feb)
+echo "28/29 days in $month.";;
+
+April|apr|June|june|September|sep|November|nov)
+echo "30 days in $month.";;
+
+jan|mar|may|jul|aug|oct|dec|January|March|May|July|August|October|December)
+echo "31 days in $month.";;
+
+q) echo "Bye!" 
+   exit;;
+
+*) echo "Unknown month $month. Please try again";;
+esac
+done
+END777
+chmod +x ~/case3
+
+```
+
+After running the above script you **will not be able to stop it.** 
+
+To stop it press `Ctrl-Z`
+
+and then run:  
+`kill -9 %1` 
+or
+`kill -9 case3`
+
+
+
+Another example
+
+```bash
+cat > ~/trap << "EOF1"
+#!/bin/bash 
+trap 'echo " Ctrl-C IGNORED" ' 2 
+trap 'echo " Ctrl-\ IGNORED" ' 3 
+echo
+echo 'I will sleep for 500 seconds'
+echo 'Try to stop me with Ctrl-C, Ctrl-\' 
+echo 
+while true ; do 
+sleep 500 
+done
+EOF1
+chmod +x ~/trap
+
+```
+
+Again you **will not be able to stop it with Ctrl-C or Ctrl-\** 
+
+
+
+
+
+
+## Text Processing Tools
+
+<br><br>
+
+#### Advanced Text Processing - AWK 
+
+> **AWK**  - extract sections/fields from each line of files
+
+
+Examples
+
+```bash
+awk -F":" '{print $1}' /etc/passwd | grep ^s
+```
+
+```bash
+tail -10 /etc/passwd | awk -F":" '{print $3"--"$1}' | sort -n
+```
+
+```bash
+cat /etc/passwd | grep -E ^'(b|sy)' | awk -F":" '{print "User: "$3"  "$1}'
+```
+
+```bash
+cat /etc/passwd | awk -F":" '/nologin$/ {print $1"-"$5}'
+```
+
+##### Task:
+Modify the above command, to narrow selection by only lines starting with s  
+
+
+
+<br><br>
+
+#### Advanced Text Processing – SED 
+
+Sed is a very useful **S**tream **ED**itor.  
+It's ideal for batch-editing files or for creating shell scripts to modify existing files in powerful ways. 
+It's rather complex for quick full understanding, so below are only few use cases.
+
+One of sed's most useful commands is the _**substitution**_ command. 
+
+Following command takes a stream from pipe and replaces first occurrence of `:` on each line to `<*>`: 
+
+```bash
+cat /etc/passwd | sed -e 's/:/<*>/'
+```
+
+To replace all occurrences we should add `g` to make replacement global: 
+
+```bash
+cat /etc/passwd | sed -e 's/:/<*>/g' 
+```
+
+Another useful examples with SED: 
+
+Output lines `5-7` 
+
+```bash
+sed -n '5,7p' /etc/group
+```
+
+**-n** causes not to output each processed lines<br>
+**p** command specifies print (output) specified line range: 5-7 
+
+
+Output all lines except `1-20` 
+
+```bash
+sed '1,20d' /etc/group
+```
+
+**d** command causes specified line range: 
+`1-20` to be deleted/removed from output, 
+other lines will be present in output 
+
+Remove comments (lines starting with '#' - `^#`) and empty lines `^$` from output:  
+
+```bash
+sed '/^#\|^$/d' /etc/rsyslog.conf
+```
+
+**d** command causes specified lines: <br>
+**^#** - starting with **#** <br>
+or **\\|** <br>
+**^$** - empty line (**^**- line start, **$** - line end) 
+to be deleted/removed from output, 
+other lines will be present in output. 
+
+
+##### Task: 
+Modify the above command, to remove also lines starting with **$** 
+
 
 
 
