@@ -395,14 +395,6 @@ Why?
 **HINT: you need to use something else than $1** 
 
 
-#### PRATICE
-Based on previous use of funny `cowsay` program, create more flexible script `nkar` to get 2 parameters and provide to `cowsay`
-1. what picture to draw
-2. what text to say
-
-When ready it should work like `nkar elephant HELLO`
-
-![img.png](../images/shell-course/elephant.png)
 
 ## Sourcing Scripts
 
