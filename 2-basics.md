@@ -154,16 +154,22 @@ cowsay Hi Shell Programmin student
 It can draw different pictures and say the text you provide.
 
 
-3. Create an alias `krya` to draw **turtle** saying what you will give as parameter.
+3. Create an alias `pxik` to draw **elephant** saying what you will give as parameter.
    1. List of pictures are available with
    ```bash 
    cowsay -l
    ```
-   2. Read `man cowsay` and find the option to provide **turtle** picture file as parameter.
-   3. Your alias should work like `krya BAREV`
+   2. Find the option to provide **elephant** picture file as parameter
+      1. ```bash
+         cowsay -h
+         ```
+      2. ```bash
+         man cowsay
+         ```
+   3. Your alias should work like `pxik HELLO`
 
 
-![img.png](shell-course/turtle.png)
+![img.png](shell-course/elephant.png)
 
 4. Create the **script** which will do the same as **alias**. 
 
