@@ -596,7 +596,7 @@ chmod +x ~/loop2
 
 ```
 
-#### TASK
+#### Task
 
 Modify the above script to get first positional parameter and to output numbers until that.
 Also check if it is number and exit if it is not given (you may `source` parts of previous scripts).
@@ -620,7 +620,7 @@ chmod +x ~/loop3
 
 ```
 
-#### TASK
+#### Task
 
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
@@ -645,7 +645,7 @@ chmod +x ~/loop4
 
 ```
 
-#### TASK
+#### Task
 
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
@@ -728,7 +728,7 @@ chmod +x ~/sumd
 
 ```
 
-#### TASK
+#### Task
 
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
