@@ -114,7 +114,7 @@ CLI / Shell / Bash աշխատում է ինտերակտիվ եղանակով, ո
 
 Հրամանների կառուցվածք
 
-<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/command-structure.png width=50% height=50% >
+<img src=https://github.com/arthur7373/shell/blob/main/shell-course/command-structure.png width=50% height=50% >
 
 > Հրամանների օրինակներ
 
@@ -477,9 +477,9 @@ There are several tool to view text files contents.
 
 ## I/O Redirection
 
-<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/io-redir-1.jpg width=50% height=50% >
+<img src=https://github.com/arthur7373/shell/blob/main/shell-course/io-redir-1.jpg width=50% height=50% >
 <br><br>
-<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/io-redir-2.jpg width=50% height=50% >
+<img src=https://github.com/arthur7373/shell/blob/main/shell-course/io-redir-2.jpg width=50% height=50% >
 
 > STDOUT - Standard output  		>     >> 
  
@@ -497,7 +497,7 @@ There are several tool to view text files contents.
 
 Pipeline - Մեկ հրամանի STDOUT-ը ուղարկել այլ հրամանի STDIN-ին
 
-<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/pipes-1.jpg width=50% height=50% >
+<img src=https://github.com/arthur7373/shell/blob/main/shell-course/pipes-1.jpg width=50% height=50% >
 
 > Օրինակ
 
@@ -575,7 +575,7 @@ Even if any other editor will not be present or available to install Vi/Vim will
 
 There is also much rarely used **Visual** mode for highlight or select text for copying, deleting, etc 
 
-<img src=https://github.com/arthur7373/linux-training/blob/main/images/shell-course/vim-modes.jpg width=50% height=50% >
+<img src=https://github.com/arthur7373/shell/blob/main/shell-course/vim-modes.jpg width=50% height=50% >
 
 > REMEMBER ! 
 > If you get confused in which mode you are in just **press the `ESC` key a couple of times and start over** with what you were doing.
